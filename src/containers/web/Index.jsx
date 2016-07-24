@@ -1,9 +1,7 @@
 import React, { Component ,PropTypes} from 'react';
 import { connect } from 'react-redux';
 
-import Header from '../../components/web/header/Header.jsx';
 import Readme from '../../components/web/readme/Readme.jsx';
-import Content from '../../components/web/content/Content.jsx';
 import * as IndexAction from '../../actions/index.es6';
 import {bindingMixin} from 'eg-tools';
 
