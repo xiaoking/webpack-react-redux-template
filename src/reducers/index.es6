@@ -1,1 +1,2 @@
-export {test} from "./test.es6";
+export {home} from "./home.es6";
+export {msg} from "./msg.es6";

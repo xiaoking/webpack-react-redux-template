@@ -4,11 +4,10 @@ import Immutable from 'immutable';
 import {actionType} from '../constants/action-type.es6';
 
 const initialState = Immutable.fromJS({
-    name:'init'
+    username:'',
+    email:'',
+    content:''
 });
 
-export const test = createReducer('test',initialState, {
-    [actionType.QUERY]: (data, action) => {
-        return data.merge(Immutable.fromJS(action.data));
-    }
+export const msg = createReducer('msg',initialState, {
 });

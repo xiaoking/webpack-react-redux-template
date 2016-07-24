@@ -13,7 +13,7 @@ module.exports = {
   //是否自动生成manifest
   manifest:false,
   //web or app
-  projectType:'app',
+  projectType:'web',
   //生成目录
   "output": "./dist",
   env:ci.env || 'beta',

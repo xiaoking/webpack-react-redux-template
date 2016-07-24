@@ -10,7 +10,8 @@ import * as reducers from './reducers/index.es6';
 import { Redirect, Router, Route } from 'react-router';
 import History from 'history/lib/createHashHistory';
 
-import TestWeb from './containers/test.jsx';
+import Index from './containers/web/Index.jsx';
+import Msg from './containers/web/Msg.jsx';
 
 class AppRouter extends Component {
 
@@ -20,9 +21,6 @@ class AppRouter extends Component {
         this.history = new History({
             queryKey: false
         });
-
-        console.dir(this.props);
-        window.dispatch = this.props.dispatch;
     }
 
     static defaultProps={
@@ -37,17 +35,16 @@ class AppRouter extends Component {
         return (
             <div>
                 <Router history={this.history}>
-                    <Route path="/test" name="test" component={TestWeb} />
-                    <Redirect from="/" to="/test" />
+                    <Route path="/index" component={Index} />
+                    <Route path="/msg" component={Msg} />
+                    <Redirect from="/" to="/index" />
                 </Router>
             </div>
         );
     }
 }
 
-//判断执行dev环境
-
 render(
-    <BindReact Module={AppRouter} reducers={reducers} />,
+    <BindReact Module={AppRouter} reducers={reducers} autoShowFetching={true} barName="web" autoDevTools={false} />,
     document.getElementById('root')
 );

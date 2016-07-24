@@ -1,6 +1,7 @@
 export const actionType = {
 
     'QUERY':'query',
+    'SAVE':'save',
     'DELETE':'delete',
     'UPDATE':'update',
     'FIND':'find',
