@@ -18,6 +18,7 @@
     "bootstrap": "^3.3.6",
     "classnames": "^2.2.0",
     "eagle-ui": "^1.4.5",
+    "eg-tools": "^5.0.1",
     "es5-shim": "^4.5.9",
     "extend": "^3.0.0",
     "history": "^1.13.1",
