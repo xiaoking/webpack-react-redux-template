@@ -18,13 +18,10 @@
     "bootstrap": "^3.3.6",
     "classnames": "^2.2.0",
     "eagle-ui": "^1.4.5",
-    "eg-tools": "^4.0.4",
     "es5-shim": "^4.5.9",
     "extend": "^3.0.0",
-    "handlebars": "^4.0.5",
     "history": "^1.13.1",
     "immutable": "^3.7.5",
-    "jquery": "^2.2.4",
     "lodash": "^3.10.1",
     "phoenix-styles": "^0.1.5",
     "phoenix-ui": "^0.1.3",
@@ -37,7 +34,6 @@
     "whatwg-fetch": "^0.10.1"
   },
   "devDependencies": {
-    "postcss-color-rebeccapurple": "^2.0.0",
     "autoprefixer": "^6.3.7",
     "autoprefixer-loader": "^3.2.0",
     "babel": "^6.0.15",
@@ -48,6 +44,7 @@
     "babel-preset-stage-0": "^6.1.18",
     "cortex-recombiner": "^1.0.13",
     "cortex-recombiner-webpack-plugin": "^1.0.3",
+    "cross-env": "^2.0.0",
     "css-loader": "0.17.0",
     "extend": "^3.0.0",
     "extract-text-webpack-plugin": "^0.8.2",
@@ -66,8 +63,10 @@
     "gulp-util": "^3.0.6",
     "gulp-webpack": "^1.5.0",
     "handlebars-loader": "^1.3.0",
+    "html-webpack-plugin": "^2.22.0",
     "less": "^2.5.1",
     "less-loader": "^2.2.0",
+    "postcss-color-rebeccapurple": "^2.0.0",
     "postcss-initial": "^1.5.2",
     "postcss-loader": "^0.9.1",
     "raw-loader": "^0.5.1",
@@ -80,6 +79,7 @@
     "webpack-dev-server": "^1.10.1"
   },
   "scripts": {
+    "demo": "cross-env NODE_ENV=development node_modules/.bin/gulp ",
     "build": "node_modules/.bin/gulp ",
     "dev": "node_modules/.bin/gulp dev",
     "start": "node_modules/.bin/gulp dev"

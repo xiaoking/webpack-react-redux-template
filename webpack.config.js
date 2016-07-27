@@ -8,7 +8,7 @@ var config = require('./src/config/base.config');
 var alias = require('./src/config/alias.json');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var CortexRecombinerPlugin=require('cortex-recombiner-webpack-plugin');
-//?presets[]=stage-0,presets[]=react,presets[]=es2015
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var setExternals= function() {
     var external=externals;
@@ -16,20 +16,39 @@ var setExternals= function() {
     return external;
 };
 
-var baseFileDir = path.join(process.cwd(), 'src/');
-
+//var baseFileDir = path.join(process.cwd(), 'src/');
+var htmlPlugin=[];
 var getEntry = function(){
-    var basedir =baseFileDir+'entries';
-    var files = glob.sync(path.join(basedir, '*.jsx'));
+    var webpackConfigEntry = {};
+    if(config.root.indexOf('.') !=-1 ){
+        webpackConfigEntry.bundle=[path.join(__dirname, config.root)];
+    }else{
+        var basedir =path.join(process.cwd(), config.root);
+        var files = glob.sync(path.join(basedir, '*.jsx'));
 
-    var webpackConfigEntry = {};//webpackConfig.entry || (webpackConfig.entry = {});
+        files.forEach(function(file) {
+            var relativePath = path.relative(basedir, file);
+            generateHtml(relativePath.replace(/\.jsx/,'').toLowerCase() );
+            webpackConfigEntry[relativePath.replace(/\.jsx/,'').toLowerCase()] = [file];
+        });
+    }
 
-    files.forEach(function(file) {
-        var relativePath = path.relative(basedir, file);
-        webpackConfigEntry[relativePath.replace(/\.jsx/,'').toLowerCase()] = file;
-    });
     return webpackConfigEntry;
 };
+
+function generateHtml(htmlName){
+    //var path = config.html+'/'+htmlName+'.html';
+    htmlPlugin.push(
+        new HtmlWebpackPlugin({
+            title: htmlName,
+            template: path.resolve(config.html, 'dev.html'),
+            filename: htmlName+'.html',
+            chunks: ['common', htmlName],
+            inject: 'body'
+        })
+
+    );
+}
 
 
 function setCommonsChuck(){
@@ -40,16 +59,13 @@ function setCommonsChuck(){
     return arr;
 }
 
-//extend(getEntry(),entry||{}),
-var entryList =config.projectType=='app'? extend(getEntry(),entry||{}) : extend({bundle:path.join(__dirname, 'src/index.jsx')},entry||{});
-
 var webpackConfig = {
-    entry: entryList,
+    entry: extend(getEntry(),entry||{}),
     output: {
         path:path.join(__dirname, config.output.replace('./','') ),
         filename: '[name].js',
         libraryTarget: "umd",
-        publicPath: config.cdn.beta,
+        publicPath: config.cdn,
         chunkFilename: '[name].[chunkhash].js',
         sourceMapFilename: '[name].map'
     },
@@ -129,29 +145,34 @@ var webpackConfig = {
         new CortexRecombinerPlugin({
             base:__dirname//path.resolve(__dirname,relativeToRootPath),//项目根目录的绝对路径
         }),
-        new webpack.ProvidePlugin({
-            $:      "jquery",
-            jQuery: "jquery"
-        }),
-        new webpack.DefinePlugin({
-            'process.env':{
-                'NODE_ENV': JSON.stringify(config.env!='pro'?'development':'production')
-            }
-        }),
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.CommonsChunkPlugin({
             name: "common",
             filename: "common.js",
             minChunks: Infinity
 
-        }),
+        })
+    ]
+};
+
+console.log(config.env);
+
+if(config.env!='beta'&& config.env!='dev'){
+    console.log('..........----pro----.............');
+    webpackConfig.plugins.push(
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false
             }
         })
-    ]
-};
-
+    );
+    webpackConfig.plugins.push(
+        new webpack.DefinePlugin({
+            'process.env':{
+                'NODE_ENV': JSON.stringify('production')
+            }
+        })
+    )
+}
 
 module.exports = webpackConfig;

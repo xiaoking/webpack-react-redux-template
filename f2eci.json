@@ -1,8 +1,9 @@
 {
   "scripts":{
-    "build":"cortex install --stable-only && gulp && gulp min-webpack",
+    "build":"cortex install --stable-only && gulp",
     "postpublish":""
   },
   "dist": "./dist",
-  "env":"beta"
+  "env":"dev",
+  "urlPrefix":""
 }

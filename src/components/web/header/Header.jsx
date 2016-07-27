@@ -46,9 +46,9 @@ export default class Header extends Component {
                        </Col>
                        <Col sm={8}>
                            <Row className="menu-list">
-                               <Col sm={2}><a href="#/index">首页</a></Col>
+                               <Col sm={2}><a href="./index.html">首页</a></Col>
                                <Col sm={2}><a href="http://uedfamily.com/framework/">框架文档</a></Col>
-                               <Col sm={2} end><a href="#/msg">给我留言</a></Col>
+                               <Col sm={2} end><a href="./msg.html">给我留言</a></Col>
                            </Row>
                        </Col>
                        <Col sm={3} end style={{

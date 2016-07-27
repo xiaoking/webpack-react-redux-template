@@ -7,7 +7,6 @@ var webpackConfig = require('./webpack.config');
 var less = require('gulp-less');
 var includer = require('gulp-htmlincluder');
 var runSequence = require('run-sequence').use(gulp);
-var manifest = require('gulp-h-manifest');
 var clean = require('gulp-rimraf');
 var webpack = require("webpack");
 var glob = require("glob");
@@ -56,26 +55,7 @@ gulp.task('html-includer', function() {
       .pipe(gulp.dest('html'));
 });
 
-gulp.task('manifest', function(cb) {
 
-  if(config.manifest){
-
-    glob(config.output+"/**/*.html",function(err,file){
-      var item;
-      var length =  file.length;
-      var index=1;
-      while(item = file.shift()){
-        gulp.src(item)
-            .pipe(manifest())
-            .pipe(gulp.dest(item.replace(/([\w-])*.html$/,'')))
-            .on("end",function(){
-              index == length ? cb() : (index++);
-            })
-      }
-    });
-  }
-
-});
 
 gulp.task('clean', function(){
   gulp.src([
@@ -84,16 +64,17 @@ gulp.task('clean', function(){
       .pipe(clean());
 });
 
-gulp.task('html', function () {
-  return gulp.src([config.html+ '/**/*.*'])
-      .pipe(gulp.dest(config.output ));
-});
 
+gulp.task('html', function () {
+    return gulp.src([config.html+ '/**/*.*'])
+        .pipe(gulp.dest(config.output ));
+});
 gulp.task('default', function(){
-  runSequence('clean','webpack','html','manifest');
+  runSequence('clean','webpack','html');
 });
 gulp.task('dev', ['hot', 'open']);
+/*
 
 gulp.task('watch', function() {
-  gulp.watch([config.html+'/**/*.html'],["html-includer"]);
-});
+  gulp.watch([config.html+'/!**!/!*.html'],["html-includer"]);
+});*/
