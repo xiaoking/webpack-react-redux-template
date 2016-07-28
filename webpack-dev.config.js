@@ -22,6 +22,40 @@ module.exports= function(){
     wbpk.plugins.push(
         new webpack.HotModuleReplacementPlugin()
     );
+    wbpk.module.loaders=wbpk.module.loaders.filter(function(item){
+        return item.test.toString().match(/less|css/i)==null;
+    }).concat([
+        {
+            test: /\.(less$)$/,
+            loader:"style!css!postcss!less"
+            //loader: "style-loader!css-loader!less-loader"
+        },
+        {
+            test: /\.css$/,
+            loader: "style!css?-restructuring!postcss"
+        },
+        {
+            test: /\.css\.module/,
+            loader:   "style!css?-restructuring&modules&localIdentName=[local]___[hash:base64:5]!postcss"
+        },
+        {
+            test: /\.less\.module/,
+            loader:  "style!css?modules&localIdentName=[local]___[hash:base64:5]!postcss!less"
+
+        },
+        {
+            test: /\.(jsx|es6)$/,
+            loaders: ['react-hot', 'babel'],
+            exclude: /node_modules/
+        }
+    ]);
+    /*wbpk.module.loaders.push(
+        {
+            test: /\.(jsx|es6)$/,
+            loaders: ['react-hot', 'babel'],
+            exclude: /node_modules/
+        }
+    );*/
     var compiler = webpack(wbpk);
 
     new WebpackDevServer(compiler, {

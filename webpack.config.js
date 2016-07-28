@@ -142,17 +142,17 @@ var webpackConfig = {
             disable: false,
             allChunks: true
         }),
-        new CortexRecombinerPlugin({
-            base:__dirname//path.resolve(__dirname,relativeToRootPath),//项目根目录的绝对路径
-        }),
-        new webpack.optimize.DedupePlugin(),
         new webpack.optimize.CommonsChunkPlugin({
             //name: "common",
             //filename: "common.js",
             names: setCommonsChuck(),
             minChunks: Infinity
 
-        })
+        }),
+        new CortexRecombinerPlugin({
+            base:__dirname//path.resolve(__dirname,relativeToRootPath),//项目根目录的绝对路径
+        })/*,
+        new webpack.optimize.DedupePlugin()*/
     ]
 };
 
@@ -173,7 +173,10 @@ if(config.env!='beta'&& config.env!='dev'){
                 'NODE_ENV': JSON.stringify('production')
             }
         })
-    )
+    );
+    webpackConfig.plugins.push(
+        new webpack.optimize.DedupePlugin()
+    );
 }
 
 module.exports = webpackConfig;
