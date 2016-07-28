@@ -147,8 +147,9 @@ var webpackConfig = {
         }),
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.CommonsChunkPlugin({
-            name: "common",
-            filename: "common.js",
+            //name: "common",
+            //filename: "common.js",
+            names: setCommonsChuck(),
             minChunks: Infinity
 
         })
