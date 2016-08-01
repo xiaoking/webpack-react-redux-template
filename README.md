@@ -12,75 +12,74 @@
 
 ## 目录结构
 
-.
-├── LICENSE
-├── README.md
-├── cortex.json	
-├── dist		//最终生成的文件
-├── f2eci.json  //Peon CI 配置
-├── gulpfile.js 
-├── package.json
-├── src		
-│   ├── actions		//来描述“发生了什么,多用于跟server端数据交互，通过dispatch方法更新 state
-│   │   ├── index.es6		//示例
-│   │   └── msg.es6			//示例
-│   ├── components		//组件、页面组件
-│   │   ├── wap
-│   │   └── web		//示例
-│   │       ├── content
-│   │       │   ├── Content.jsx
-│   │       │   └── Content.less
-│   │       ├── header
-│   │       │   ├── Header.jsx
-│   │       │   ├── Header.less
+.    
+├── LICENSE    
+├── README.md    
+├── cortex.json    
+├── dist    //最终生成的文件    
+├── f2eci.json  //Peon CI 配置    
+├── gulpfile.js    
+├── package.json    
+├── src    
+│   ├── actions   //来描述“发生了什么,多用于跟server端数据交互，通过dispatch方法更新 state    
+│   │   ├── index.es6   //示例    
+│   │   └── msg.es6     //示例    
+│   ├── components    //组件、页面组件    
+│   │   ├── wap    
+│   │   └── web   //示例    
+│   │       ├── content    
+│   │       │   ├── Content.jsx    
+│   │       │   └── Content.less    
+│   │       ├── header    
+│   │       │   ├── Header.jsx    
+│   │       │   ├── Header.less    
 │   │       │   └── logo.png
-│   │       ├── msg
-│   │       │   ├── Msg.jsx
-│   │       │   ├── Msg.less
-│   │       │   └── SuccessDialog.jsx
-│   │       └── readme
-│   │           ├── AccessInfo.jsx
-│   │           ├── ConfigInfo.jsx
-│   │           ├── CreatePcProjectInfo.jsx
-│   │           ├── CreateWapProjectInfo.jsx
-│   │           ├── DirInfo.jsx
-│   │           ├── Info.jsx
-│   │           ├── MattersInfo.jsx
-│   │           ├── Readme.jsx
-│   │           └── Readme.less
-│   ├── config		//配置文件
-│   │   ├── alias.json			//webpack alias配置，用于映射复杂路径文件，将复杂路径文件用一个别名的方式表示，参考webpack api
-│   │   ├── base.config.js		//项目基本信息配置，包括入口文件（root）、调试默认打开的页面等
-│   │   ├── externals.json		//webpack externals配置，类库的外部依赖，参考webpack api
-│   │   └── vendor.json			//webpack vendor配置，参考webpack api
-│   ├── constants		//常量
-│   │   └── action-type.es6
-│   ├── containers		//页面主容器，用于将碎片化的组件在页面中组装起来
-│   │   ├── wap
-│   │   └── web		//示例
-│   │       ├── Index.jsx
-│   │       ├── Msg.jsx
-│   │       └── Parcel.jsx
-│   ├── entries		//单页面打包方式入口
-│   │   ├── index.jsx
-│   │   └── msg.jsx
-│   ├── html 		//静态页和mock数据
-│   │   ├── index.html
-│   │   ├── mocks	//用于模拟本地环境的测试数据
-│   │   │   ├── msg
-│   │   │   │   └── save.json
-│   │   │   └── search.json
-│   │   └── msg.html
-│   ├── index.jsx		//单页面路由方式入口，SAP
-│   ├── reducers		//store
-│   │   ├── home.es6
-│   │   ├── index.es6
-│   │   └── msg.es6
-│   └── utils		//工具类库
-│       └── readme.md
-├── webpack-dev.config.js
-└── webpack.config.js
-
+│   │       ├── msg    
+│   │       │   ├── Msg.jsx    
+│   │       │   ├── Msg.less    
+│   │       │   └── SuccessDialog.jsx    
+│   │       └── readme    
+│   │           ├── AccessInfo.jsx    
+│   │           ├── ConfigInfo.jsx    
+│   │           ├── CreatePcProjectInfo.jsx    
+│   │           ├── CreateWapProjectInfo.jsx    
+│   │           ├── DirInfo.jsx    
+│   │           ├── Info.jsx    
+│   │           ├── MattersInfo.jsx    
+│   │           ├── Readme.jsx    
+│   │           └── Readme.less    
+│   ├── config    //配置文件    
+│   │   ├── alias.json      //webpack alias配置，用于映射复杂路径文件，将复杂路径文件用一个别名的方式表示，参考webpack api    
+│   │   ├── base.config.js    //项目基本信息配置，包括入口文件（root）、调试默认打开的页面等    
+│   │   ├── externals.json    //webpack externals配置，类库的外部依赖，参考webpack api    
+│   │   └── vendor.json     //webpack vendor配置，参考webpack api    
+│   ├── constants   //常量    
+│   │   └── action-type.es6    
+│   ├── containers    //页面主容器，用于将碎片化的组件在页面中组装起来    
+│   │   ├── wap    
+│   │   └── web   //示例    
+│   │       ├── Index.jsx    
+│   │       ├── Msg.jsx    
+│   │       └── Parcel.jsx    
+│   ├── entries   //单页面打包方式入口    
+│   │   ├── index.jsx    
+│   │   └── msg.jsx    
+│   ├── html    //静态页和mock数据    
+│   │   ├── index.html    
+│   │   ├── mocks //用于模拟本地环境的测试数据    
+│   │   │   ├── msg    
+│   │   │   │   └── save.json    
+│   │   │   └── search.json    
+│   │   └── msg.html    
+│   ├── index.jsx   //单页面路由方式入口，SAP    
+│   ├── reducers    //store    
+│   │   ├── home.es6    
+│   │   ├── index.es6    
+│   │   └── msg.es6    
+│   └── utils   //工具类库    
+│       └── readme.md    
+├── webpack-dev.config.js    
+└── webpack.config.js    
 
 ## 命名规范
 
