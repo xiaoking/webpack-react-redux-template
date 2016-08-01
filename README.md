@@ -1,104 +1,124 @@
-## 目录规范
+## 简介
 
-### src
+本脚手架集成了webpack+react+redux+cortex+es6+less+postcss+babel+immutable,支持Hot Module Replacement (HMR)，对于逻辑交互比较复杂的项目，且不考虑ie9以下浏览器的情况下，使用react可降低开发的复杂度。
+本项目还集成了：
 
-- `action` 对应于每个页面的入口，所有执行操作都将在此入口处被执行，action中必须配合utils包下的perform-action使用，用于区分环境对url的替换
+* `eagle-ui` 用于pc端项目的react组件库框架
+* `phoenix-ui` 这是一款基于react开发的一套wap端组件框架。需要依赖phoenix-style库
+* `phoenix-styles` 单纯的样式库，配合文档给出的html结构使用，目前使用文档在项目中的example里
+* `eg-tools` 提供一些较为基础的类库，如双向绑定、store可视视图调试工具、fetch、loadingbar等
+* `classnames` 组装className
 
-```js
 
-	import action from '../utils/perform-action';
-	/**
-     * 这种方式可以引入cortex包，前提是先安装cortex依赖包
-     */
-    import hippo from '@cortex/hippo';
-    
-	//逻辑入口，类似main
-	action('test',(fetch)=>{
-		
-		//逻辑
-		fetch('/test?id=1',{
-			success:(data)=>{
-	
-				//这里目前是获取的本地src/mocks下test.json的数据
-				console.dir(data);
-			}
-		});
-	});
-```
+## 目录结构
 
-- `config` 基本配置文件，后缀可以为js也可为json，这里可以配置需要单独打包的公共类库，可以配置一些类库的别名等。
+.
+├── LICENSE
+├── README.md
+├── cortex.json	
+├── dist		//最终生成的文件
+├── f2eci.json  //Peon CI 配置
+├── gulpfile.js 
+├── package.json
+├── src		
+│   ├── actions		//来描述“发生了什么,多用于跟server端数据交互，通过dispatch方法更新 state
+│   │   ├── index.es6		//示例
+│   │   └── msg.es6			//示例
+│   ├── components		//组件、页面组件
+│   │   ├── wap
+│   │   └── web		//示例
+│   │       ├── content
+│   │       │   ├── Content.jsx
+│   │       │   └── Content.less
+│   │       ├── header
+│   │       │   ├── Header.jsx
+│   │       │   ├── Header.less
+│   │       │   └── logo.png
+│   │       ├── msg
+│   │       │   ├── Msg.jsx
+│   │       │   ├── Msg.less
+│   │       │   └── SuccessDialog.jsx
+│   │       └── readme
+│   │           ├── AccessInfo.jsx
+│   │           ├── ConfigInfo.jsx
+│   │           ├── CreatePcProjectInfo.jsx
+│   │           ├── CreateWapProjectInfo.jsx
+│   │           ├── DirInfo.jsx
+│   │           ├── Info.jsx
+│   │           ├── MattersInfo.jsx
+│   │           ├── Readme.jsx
+│   │           └── Readme.less
+│   ├── config		//配置文件
+│   │   ├── alias.json			//webpack alias配置，用于映射复杂路径文件，将复杂路径文件用一个别名的方式表示，参考webpack api
+│   │   ├── base.config.js		//项目基本信息配置，包括入口文件（root）、调试默认打开的页面等
+│   │   ├── externals.json		//webpack externals配置，类库的外部依赖，参考webpack api
+│   │   └── vendor.json			//webpack vendor配置，参考webpack api
+│   ├── constants		//常量
+│   │   └── action-type.es6
+│   ├── containers		//页面主容器，用于将碎片化的组件在页面中组装起来
+│   │   ├── wap
+│   │   └── web		//示例
+│   │       ├── Index.jsx
+│   │       ├── Msg.jsx
+│   │       └── Parcel.jsx
+│   ├── entries		//单页面打包方式入口
+│   │   ├── index.jsx
+│   │   └── msg.jsx
+│   ├── html 		//静态页和mock数据
+│   │   ├── index.html
+│   │   ├── mocks	//用于模拟本地环境的测试数据
+│   │   │   ├── msg
+│   │   │   │   └── save.json
+│   │   │   └── search.json
+│   │   └── msg.html
+│   ├── index.jsx		//单页面路由方式入口，SAP
+│   ├── reducers		//store
+│   │   ├── home.es6
+│   │   ├── index.es6
+│   │   └── msg.es6
+│   └── utils		//工具类库
+│       └── readme.md
+├── webpack-dev.config.js
+└── webpack.config.js
 
-- `lib` 存放一些通过bower安装的类库文件
 
-- `mocks` 本地调试数据
+## 命名规范
 
-- `resources` 资源文件，包括样式、html、图片
+* `containers` 和 `components` 里的文件应该已Class方式存放，命名规范为首字母大写，之后驼峰式。
+* `entries` 和 `html` 文件名应保持一致。
+* `action`、`index`、`entries`、`reducers`、`constants` 里的文件命名规则为单词之间应以（-）连接，所有单词应保持小写方式。
 
-- `service`	页面中各个模块的逻辑，此目录下的文件命名应该按照java类命名规范 
+## 入口
 
-- `template` 一些模板文件，某些页面中存在一些异步渲染模块，需要一个类似jsp方式的模板，通过传入数据得到最终html然后放入页面某一处。本脚手架依赖handlebars类库，语法可参考 http://handlebarsjs.com/
+项目中如果想使用路由的方式进行页面间跳转，通过在config/base.config.js里修改root选项操作，默认是src/index.js或entries目录；			
 
-```js
-
-	import loginTpl from '../template/login.html';
-	
-	let html = loginTpl({
-	   title:'登陆',
-	   content:'请登录',
-	   footer:''
-    });
-    
-    $('#login').html(html);
-```
-
-```html
-
-	<!--login.html-->
-	
-	<div class="header">{{title}}</div>
-    <div class="content" style="padding: 0 20px 0">
-    
-            <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-            </div>
-    </div>
-    <div class="footer">
-        <button class="success odal-success">确定</button>
-        <button class="cancel modal-cancel">取消</button>
-    </div>
-```
-
-- `utils` 工具类存放处
-
-### dist
-
-打包后生成的文件
-
-## 使用
-
-- 下载此项目至本地，修改项目名称和package.json里的信息；
-- git remote rm origin
-- git remote add origin {你的仓库地址}  例如：git remote add origin git@code.dianpingoa.com:pc-trade-f2e/apollo-template-static.git
-- git fetch
-- git pull origin master
+如果想每个页面引入页面自己的脚本文件，修改root=entries，entries目录下对应每个页面自己的脚本。注意页面名和entries下文件名保持一致。
 
 ## Command
 
 ```
 	#打包	
 	npm run build	
+	
 	#本地演示dev
-	npm run dev
+	npm start
 ```
 
 ## 发布方式
 
 点评内部通过dianpingoa中的ci方式发布，ci类型请选择 ** peon_static **
+
+注：关于peon_static 发布方式请至：[http://wiki.sankuai.com/pages/viewpage.action?pageId=531468248 ](http://wiki.sankuai.com/pages/viewpage.action?pageId=531468248)   查看文档。
+
+## 页面预览
+
+访问html页面 h5.dianping.com/app/appName/path/to/file.html		
+
+访问其余静态资源 www.dpfile.com/app/appName/path/to/file.min.md5.ext		
+
+appName 指的是package.json中的name字段 			
+
+beta环境对应的域名分别为 h5.51ping.com 和 s1.51ping.com			
 
 ## 回滚
 
@@ -120,7 +140,6 @@
 
 ### 前端资源调试
 
-- 所有action文件需要在src/index.js中被引入
 - 执行npm(cnpm) install
 - 执行cortex install
 - 执行npm run dev 启动本地环境，预览页面
